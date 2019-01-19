@@ -21,13 +21,11 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         et_player = findViewById(R.id.et_player);
-         btn_start = findViewById(R.id.bn_start);
-         btn_validate = findViewById(R.id.bn_validate);
-
-         tv_player = findViewById(R.id.tv_player);
+        btn_start = findViewById(R.id.bn_start);
+        btn_validate = findViewById(R.id.bn_validate);
+        tv_player = findViewById(R.id.tv_player);
 
         validate();
-
         startGame();
     }
 
@@ -46,7 +44,10 @@ public class Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Main.this, Game.class));
-                Toast.makeText(Main.this, "Starting game", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Main.this, "Starting a new game", Toast.LENGTH_SHORT).show();
+
+                Intent intentPlayer = new Intent(Main.this, Game.class);
+                startActivity(intentPlayer);
             }
         });
     }

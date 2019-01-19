@@ -16,20 +16,21 @@ import java.util.Random;
 public class Game extends AppCompatActivity {
 
     private static final Random RANDOM = new Random();
-    Button btn_roll;
+    Button btn_roll, btn_skip;
     ImageView iv_dice1, iv_dice2, iv_dice3;
 
     TextView tv_score;
 
     int score = 0;
+    int aantalClicks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-
-        btn_roll = findViewById(R.id.bn_roll);
+        btn_roll = findViewById(R.id.btn_roll);
+        btn_skip = findViewById(R.id.btn_skip);
         iv_dice1 = findViewById(R.id.iv_dice1);
         iv_dice2 = findViewById(R.id.iv_dice2);
         iv_dice3 = findViewById(R.id.iv_dice3);
@@ -37,41 +38,54 @@ public class Game extends AppCompatActivity {
         btn_roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Animation anim1 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
-                final Animation anim2 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
-                final Animation anim3 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
-                final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        int value = randomDiceValue();
-                        int res = getResources().getIdentifier("ic_" + value, "drawable", "com.example.android.mobileapplications");
-
-                        if (animation == anim1) {
-                            iv_dice1.setImageResource(res);
-                        } else if (animation == anim2) {
-                            iv_dice2.setImageResource(res);
-                        } else if (animation == anim3) {
-                            iv_dice3.setImageResource(res);
+                aantalClicks++;
+                if (aantalClicks <= 3) {
+                    final Animation anim1 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
+                    final Animation anim2 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
+                    final Animation anim3 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
+                    final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
                         }
-                    }
 
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            int value = randomDiceValue();
+                            int res = getResources().getIdentifier("ic_" + value, "drawable", "com.example.android.mobileapplications");
 
-                    }
-                };
+                            if (animation == anim1) {
+                                iv_dice1.setImageResource(res);
+                            } else if (animation == anim2) {
+                                iv_dice2.setImageResource(res);
+                            } else if (animation == anim3) {
+                                iv_dice3.setImageResource(res);
+                            }
+                        }
 
-                anim1.setAnimationListener(animationListener);
-                anim2.setAnimationListener(animationListener);
-                anim3.setAnimationListener(animationListener);
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
 
-                iv_dice1.startAnimation(anim1);
-                iv_dice2.startAnimation(anim2);
-                iv_dice3.startAnimation(anim3);
+                        }
+                    };
+
+                    anim1.setAnimationListener(animationListener);
+                    anim2.setAnimationListener(animationListener);
+                    anim3.setAnimationListener(animationListener);
+
+                    iv_dice1.startAnimation(anim1);
+                    iv_dice2.startAnimation(anim2);
+                    iv_dice3.startAnimation(anim3);
+                } else {
+                    Toast.makeText(Game.this, "Turn over, next player", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btn_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aantalClicks = 0;
+                Toast.makeText(Game.this, "Skipped, next player", Toast.LENGTH_LONG).show();
             }
         });
     }
