@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ public class Game extends AppCompatActivity {
     private static final Random RANDOM = new Random();
     Button btn_roll, btn_skip;
     ImageView iv_dice1, iv_dice2, iv_dice3;
+    CheckBox cb_dice1, cb_dice2, cb_dice3;
 
     TextView tv_score;
 
@@ -34,7 +36,16 @@ public class Game extends AppCompatActivity {
         iv_dice1 = findViewById(R.id.iv_dice1);
         iv_dice2 = findViewById(R.id.iv_dice2);
         iv_dice3 = findViewById(R.id.iv_dice3);
+        cb_dice1 = findViewById(R.id.cb_dice1);
+        cb_dice2 = findViewById(R.id.cb_dice2);
+        cb_dice3 = findViewById(R.id.cb_dice3);
 
+        rollDices();
+        skipTurn();
+        checkboxChecked();
+    }
+
+    private void rollDices() {
         btn_roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +79,7 @@ public class Game extends AppCompatActivity {
                         }
                     };
 
+
                     anim1.setAnimationListener(animationListener);
                     anim2.setAnimationListener(animationListener);
                     anim3.setAnimationListener(animationListener);
@@ -75,22 +87,58 @@ public class Game extends AppCompatActivity {
                     iv_dice1.startAnimation(anim1);
                     iv_dice2.startAnimation(anim2);
                     iv_dice3.startAnimation(anim3);
-                } else {
-                    Toast.makeText(Game.this, "Turn over, next player", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
-        btn_skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                aantalClicks = 0;
-                Toast.makeText(Game.this, "Skipped, next player", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(Game.this, "Turn over, next player", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
     public static int randomDiceValue() {
         return RANDOM.nextInt(6) + 1;
+    }
+
+    private void skipTurn() {
+        btn_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aantalClicks = 0;
+                Toast.makeText(Game.this, "Skipped, next player", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkboxChecked() {
+        cb_dice1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cb_dice1.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "checked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cb_dice2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cb_dice2.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "checked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cb_dice3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cb_dice3.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "checked", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void berekenScore(){
+
     }
 }
