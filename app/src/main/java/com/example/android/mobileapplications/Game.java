@@ -37,7 +37,7 @@ public class Game extends AppCompatActivity {
     TextView tv_counter, tv_round, tv_scorePlayer1, tv_scorePlayer2, tv_roundsWinPlayer1, tv_roundsWinPlayer2, tv_results;
 
     Integer roundP1, roundP2;
-    String TotalP1, TotalP2;
+    Integer TotalP1, TotalP2;
 
     int winsP1 = 0;
     int winsP2 = 0;
@@ -81,7 +81,7 @@ public class Game extends AppCompatActivity {
         tv_scorePlayer1 = findViewById(R.id.tv_scoreP1);
         tv_scorePlayer2 = findViewById(R.id.tv_scoreP2);
         tv_roundsWinPlayer1 = findViewById(R.id.tv_roundP1);
-        tv_roundsWinPlayer2 = findViewById(R.id.tv_roundP1);
+        tv_roundsWinPlayer2 = findViewById(R.id.tv_roundP2);
 
         tv_results = findViewById(R.id.tv_result);
 
@@ -147,46 +147,67 @@ public class Game extends AppCompatActivity {
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dice1 == 1) {
-                    dice1 = 100;
-                } else if (dice1 == 2) {
-                    dice1 = 2;
-                } else if (dice1 == 3) {
-                    dice1 = 3;
-                } else if (dice1 == 4) {
-                    dice1 = 4;
-                } else if (dice1 == 5) {
-                    dice1 = 5;
-                } else if (dice1 == 6) {
-                    dice1 = 60;
+                switch (dice1) {
+                    case 1:
+                        dice1 = 100;
+                        break;
+                    case 2:
+                        dice1 = 2;
+                        break;
+                    case 3:
+                        dice1 = 3;
+                        break;
+                    case 4:
+                        dice1 = 4;
+                        break;
+                    case 5:
+                        dice1 = 5;
+                        break;
+                    case 6:
+                        dice1 = 60;
+                        break;
                 }
 
-                if (dice2 == 1) {
-                    dice2 = 100;
-                } else if (dice2 == 2) {
-                    dice2 = 2;
-                } else if (dice2 == 3) {
-                    dice2 = 3;
-                } else if (dice2 == 4) {
-                    dice2 = 4;
-                } else if (dice2 == 5) {
-                    dice2 = 5;
-                } else if (dice2 == 6) {
-                    dice2 = 60;
+                switch (dice2) {
+                    case 1:
+                        dice2 = 100;
+                        break;
+                    case 2:
+                        dice2 = 2;
+                        break;
+                    case 3:
+                        dice2 = 3;
+                        break;
+                    case 4:
+                        dice2 = 4;
+                        break;
+                    case 5:
+                        dice2 = 5;
+                        break;
+                    case 6:
+                        dice2 = 60;
+                        break;
                 }
 
-                if (dice3 == 1) {
-                    dice3 = 100;
-                } else if (dice3 == 2) {
-                    dice3 = 2;
-                } else if (dice3 == 3) {
-                    dice3 = 3;
-                } else if (dice3 == 4) {
-                    dice3 = 4;
-                } else if (dice3 == 5) {
-                    dice3 = 5;
-                } else if (dice3 == 6) {
-                    dice3 = 60;
+                switch (dice3) {
+                    case 1:
+                        dice3 = 100;
+                        break;
+                    case 2:
+                        dice3 = 2;
+                        break;
+                    case 3:
+                        dice3 = 3;
+                        break;
+                    case 4:
+                        dice3 = 4;
+                        break;
+                    case 5:
+                        dice3 = 5;
+                        break;
+                    case 6:
+                        dice3 = 60;
+                        break;
                 }
 
                 if (dice1 == 60 && dice2 == 5 && dice3 == 4 || dice1 == 60 && dice2 == 4 && dice3 == 5 || dice1 == 5 && dice2 == 60 && dice3 == 4 || dice1 == 5 && dice2 == 4 && dice3 == 60 || dice1 == 4 && dice2 == 60 && dice3 == 5 || dice1 == 4 && dice2 == 5 && dice3 == 60) {
@@ -246,73 +267,84 @@ public class Game extends AppCompatActivity {
                         roundP2 = score;
                     }
                 }
-
-                if (dice1 == 100 && dice2 == 100 && dice3 == 100) {
-                    //  Maximum points
-                    tv_results.setVisibility(View.VISIBLE);
-                    if (boolTurnPlayer1 == true) {
-                        tv_results.setText(str_player1 + " wins!");
-                    } else {
-                        tv_results.setText(str_player2 + " wins!");
-                    }
-                } else {
-                    if (boolTurnPlayer1 == true) {
-                        boolTurnPlayer1 = false;
-                        player1Turn = counter;
-                        tv_counter.setText("0/" + player1Turn);
-                        tv_turn.setText(str_player2);
-
-                        TotalP1 = dice1 + " " + dice2 + " " + dice3;
-                        tv_scorePlayer1.setText("" + TotalP1);
-                    } else {
-                        boolTurnPlayer1 = true;
-                        tv_turn.setText(str_player1);
-                        tv_counter.setText("0/3");
-                        round++;
-                        tv_round.setText("Round " + round);
-
-                        TotalP2 = dice1 + " " + dice2 + " " + dice3;
-                        tv_scorePlayer2.setText("" + TotalP2);
-
-                        tv_results.setVisibility(View.VISIBLE);
-                        String winner;
-                        if (roundP1 > roundP2) {
-                            winner = str_player1;
-                            winsP1++;
-                            tv_roundsWinPlayer1.setText("" + winsP1);
-                        } else if (roundP1.equals(roundP2)) {
-                            winner = "Draw";
-                        } else {
-                            winner = str_player2;
-                            winsP2++;
-                            tv_roundsWinPlayer1.setText("" + winsP2);
-                        }
-                        tv_results.setText(winner + " wins!");
-                    }
-                    btn_end.setVisibility(View.INVISIBLE);
-                    btn_roll.setVisibility(View.VISIBLE);
-
-                    if (cb_dice1.isChecked()) {
-                        cb_dice1.toggle();
-                    }
-                    if (cb_dice2.isChecked()) {
-                        cb_dice2.toggle();
-                    }
-                    if (cb_dice3.isChecked()) {
-                        cb_dice3.toggle();
-                    }
-                    cb_dice1.setVisibility(View.INVISIBLE);
-                    cb_dice2.setVisibility(View.INVISIBLE);
-                    cb_dice3.setVisibility(View.INVISIBLE);
-
-                    counter = 0;
-
-                    int image = getResources().getIdentifier("ic_", "drawable", getPackageName());
-                    iv_dice1.setImageResource(image);
-                    iv_dice2.setImageResource(image);
-                    iv_dice3.setImageResource(image);
-                }
+                apen();
             }
         });
+    }
+
+    //  Maximum amount of points thrown
+    private void apen() {
+        if (dice1 == 100 && dice2 == 100 && dice3 == 100) {
+            tv_results.setVisibility(View.VISIBLE);
+            if (boolTurnPlayer1 == true) {
+                tv_results.setText(str_player1 + " wins!");
+            } else {
+                tv_results.setText(str_player2 + " wins!");
+            }
+        } else {
+            calculateRounds();
+        }
+        btn_end.setVisibility(View.INVISIBLE);
+        btn_roll.setVisibility(View.VISIBLE);
+
+        if (cb_dice1.isChecked()) {
+            cb_dice1.toggle();
+        }
+        if (cb_dice2.isChecked()) {
+            cb_dice2.toggle();
+        }
+        if (cb_dice3.isChecked()) {
+            cb_dice3.toggle();
+        }
+        cb_dice1.setVisibility(View.INVISIBLE);
+        cb_dice2.setVisibility(View.INVISIBLE);
+        cb_dice3.setVisibility(View.INVISIBLE);
+
+        counter = 0;
+
+        int image = getResources().getIdentifier("ic_", "drawable", getPackageName());
+        iv_dice1.setImageResource(image);
+        iv_dice2.setImageResource(image);
+        iv_dice3.setImageResource(image);
+    }
+
+    private void calculateScore() {
+
+    }
+
+    private void calculateRounds() {
+        if (boolTurnPlayer1 == true) {
+            boolTurnPlayer1 = false;
+            player1Turn = counter;
+            tv_counter.setText("0/" + player1Turn);
+            tv_turn.setText(str_player2);
+
+            TotalP1 = dice1 + dice2 + dice3;
+            tv_scorePlayer1.setText("" + TotalP1);
+        } else {
+            boolTurnPlayer1 = true;
+            tv_turn.setText(str_player1);
+            tv_counter.setText("0/3");
+            round++;
+            tv_round.setText("Round " + round);
+
+            TotalP2 = dice1 + dice2 + dice3;
+            tv_scorePlayer2.setText("" + TotalP2);
+
+            tv_results.setVisibility(View.VISIBLE);
+            String winner;
+            if (roundP1 > roundP2) {
+                winner = str_player1;
+                winsP1++;
+                tv_roundsWinPlayer1.setText("" + winsP1);
+            } else if (roundP1.equals(roundP2)) {
+                winner = "Nobody";
+            } else {
+                winner = str_player2;
+                winsP2++;
+                tv_roundsWinPlayer2.setText("" + winsP2);
+            }
+            tv_results.setText(winner + " wins!");
+        }
     }
 }
