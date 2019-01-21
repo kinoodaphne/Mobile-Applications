@@ -19,7 +19,9 @@ public class Game extends AppCompatActivity {
 
     //  Buttons
     Button btn_roll, btn_end;
-    private ImageView iv_dice1, iv_dice2, iv_dice3;
+    ImageView iv_dice1, iv_dice2, iv_dice3;
+
+    String str_player1, str_player2;
 
     Integer counter = 0;
     Boolean boolTurnPlayer1 = true;
@@ -29,6 +31,10 @@ public class Game extends AppCompatActivity {
     int dice1, dice2, dice3, score;
 
     CheckBox cb_dice1, cb_dice2, cb_dice3;
+
+    TextView tv_player1, tv_player2, tv_turn;
+
+    TextView  tv_counter, tv_round, tv_scorePlayer1, tv_scorePlayer2, tv_roundsWinPlayer1, tv_roundsWinPlayer2, tv_results;
 
     Integer roundP1, roundP2;
     String TotalP1, TotalP2;
@@ -42,12 +48,12 @@ public class Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
-        final String str_player1 = intent.getStringExtra(Main.text_player1);
-        final String str_player2 = intent.getStringExtra(Main.text_player2);
+        str_player1 = intent.getStringExtra(Main.text_player1);
+        str_player2 = intent.getStringExtra(Main.text_player2);
 
-        TextView tv_player1 = (TextView) findViewById(R.id.tv_player1);
-        TextView tv_player2 = (TextView) findViewById(R.id.tv_player2);
-        final TextView tv_turn = (TextView) findViewById(R.id.tv_turn);
+        tv_player1 = findViewById(R.id.tv_player1);
+        tv_player2 = findViewById(R.id.tv_player2);
+        tv_turn = findViewById(R.id.tv_turn);
 
         tv_player1.setText(str_player1);
         tv_player2.setText(str_player2);
@@ -69,15 +75,15 @@ public class Game extends AppCompatActivity {
         cb_dice2.setVisibility(View.INVISIBLE);
         cb_dice3.setVisibility(View.INVISIBLE);
 
-        final TextView tv_counter = (TextView) findViewById(R.id.tv_counter);
-        final TextView tv_round = (TextView) findViewById(R.id.tv_rounds);
+        tv_counter = findViewById(R.id.tv_counter);
+        tv_round = findViewById(R.id.tv_rounds);
 
-        final TextView tv_scorePlayer1 = (TextView) findViewById(R.id.tv_scoreP1);
-        final TextView tv_scorePlayer2 = (TextView) findViewById(R.id.tv_scoreP2);
-        final TextView tv_roundsWinPlayer1 = (TextView) findViewById(R.id.tv_roundP1);
-        final TextView tv_roundsWinPlayer2 = (TextView) findViewById(R.id.tv_roundP1);
+        tv_scorePlayer1 = findViewById(R.id.tv_scoreP1);
+        tv_scorePlayer2 = findViewById(R.id.tv_scoreP2);
+        tv_roundsWinPlayer1 = findViewById(R.id.tv_roundP1);
+        tv_roundsWinPlayer2 = findViewById(R.id.tv_roundP1);
 
-        final TextView tv_results = (TextView) findViewById(R.id.tv_result);
+        tv_results = findViewById(R.id.tv_result);
 
         rollDice();
 
