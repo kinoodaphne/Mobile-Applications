@@ -10,44 +10,42 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Main extends AppCompatActivity {
+    public static final String text_player1 = "com.example.android.mobileapplications.text_player1";
+    public static final String text_player2 = "com.example.android.mobileapplications.text_player2";
 
-    Button btn_start, btn_validate;
-    TextView tv_player;
-    EditText et_player;
+    Button btn_start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        et_player = findViewById(R.id.et_player);
         btn_start = findViewById(R.id.bn_start);
-        btn_validate = findViewById(R.id.bn_validate);
-        tv_player = findViewById(R.id.tv_player);
-
-        validate();
         startGame();
-    }
-
-    private void validate() {
-        btn_validate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv_player.setVisibility(View.VISIBLE);
-                tv_player.setText("Player 1: " + et_player.getText().toString());
-            }
-        });
     }
 
     private void startGame() {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Main.this, Game.class));
-                Toast.makeText(Main.this, "Starting a new game", Toast.LENGTH_SHORT).show();
 
-                Intent intentPlayer = new Intent(Main.this, Game.class);
-                startActivity(intentPlayer);
+                EditText player1 = findViewById(R.id.et_player1);
+                EditText player2 = findViewById(R.id.et_player2);
+
+                String str_player1 = player1.getText().toString();
+                String str_player2 = player2.getText().toString();
+
+                TextView tv_validate = findViewById(R.id.tv_validate);
+
+                if (str_player1.isEmpty() && str_player2.isEmpty()) {
+                    tv_validate.setText("Please enter names for both players");
+                } else {
+                    Intent intent = new Intent(Main.this, Game.class);
+
+                    intent.putExtra(text_player1, str_player1);
+                    intent.putExtra(text_player2, str_player2);
+                    startActivity(intent);
+                }
             }
         });
     }
