@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.content.DialogInterface;
 
 import java.util.Random;
 
@@ -18,11 +17,13 @@ public class Game extends AppCompatActivity {
 
     //  Declare variables
     public static final Random RANDOM = new Random();
+    public static final String text_winner = "com.example.android.mobileapplications.text_winner";
 
     Button btn_roll, btn_end;
     ImageView iv_dice1, iv_dice2, iv_dice3;
 
     String str_player1, str_player2;
+    String str_winner;
 
     Integer counter = 0, round = 1, player1Turn;
     Boolean boolTurnPlayer1 = true;
@@ -105,6 +106,10 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                iv_dice1.setVisibility(View.VISIBLE);
+                iv_dice2.setVisibility(View.VISIBLE);
+                iv_dice3.setVisibility(View.VISIBLE);
+
                 // If checkbox is NOT checked, display new dice image
                 if (!cb_dice1.isChecked()) {
                     dice1 = randomDiceValue();
@@ -143,8 +148,6 @@ public class Game extends AppCompatActivity {
                         Toast.makeText(Game.this, "Turns over, next player",
                                 Toast.LENGTH_SHORT).show();
                     }
-                } else if (counter > 3) {
-                    Toast.makeText(Game.this, "No more turns, next player please", Toast.LENGTH_LONG).show();
                 } else {
                     tv_counter.setText(counter + "/" + player1Turn);
                     if (counter == player1Turn) {
@@ -160,131 +163,9 @@ public class Game extends AppCompatActivity {
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (dice1) {
-                    case 1:
-                        dice1 = 100;
-                        break;
-                    case 2:
-                        dice1 = 2;
-                        break;
-                    case 3:
-                        dice1 = 3;
-                        break;
-                    case 4:
-                        dice1 = 4;
-                        break;
-                    case 5:
-                        dice1 = 5;
-                        break;
-                    case 6:
-                        dice1 = 60;
-                        break;
-                }
 
-                switch (dice2) {
-                    case 1:
-                        dice2 = 100;
-                        break;
-                    case 2:
-                        dice2 = 2;
-                        break;
-                    case 3:
-                        dice2 = 3;
-                        break;
-                    case 4:
-                        dice2 = 4;
-                        break;
-                    case 5:
-                        dice2 = 5;
-                        break;
-                    case 6:
-                        dice2 = 60;
-                        break;
-                }
-
-                switch (dice3) {
-                    case 1:
-                        dice3 = 100;
-                        break;
-                    case 2:
-                        dice3 = 2;
-                        break;
-                    case 3:
-                        dice3 = 3;
-                        break;
-                    case 4:
-                        dice3 = 4;
-                        break;
-                    case 5:
-                        dice3 = 5;
-                        break;
-                    case 6:
-                        dice3 = 60;
-                        break;
-                }
-
-                if (dice1 == 60 && dice2 == 5 && dice3 == 4
-                        || dice1 == 60 && dice2 == 4 && dice3 == 5
-                        || dice1 == 5 && dice2 == 60 && dice3 == 4
-                        || dice1 == 5 && dice2 == 4 && dice3 == 60
-                        || dice1 == 4 && dice2 == 60 && dice3 == 5
-                        || dice1 == 4 && dice2 == 5 && dice3 == 60) {
-                    if (boolTurnPlayer1 == true) {
-                        roundP1 = 700;
-                    } else {
-                        roundP2 = 700;
-                    }
-                } else if (dice1 == dice2 && dice1 == dice3) {
-                    switch (dice1) {
-                        case 2:
-                            if (boolTurnPlayer1 == true) {
-                                roundP1 = 270;
-                            } else {
-                                roundP2 = 270;
-                            }
-                            break;
-
-                        case 3:
-                            if (boolTurnPlayer1 == true) {
-                                roundP1 = 333;
-                            } else {
-                                roundP2 = 333;
-                            }
-                            break;
-
-                        case 4:
-                            if (boolTurnPlayer1 == true) {
-                                roundP1 = 444;
-                            } else {
-                                roundP2 = 444;
-                            }
-                            break;
-
-                        case 5:
-                            if (boolTurnPlayer1 == true) {
-                                roundP1 = 555;
-                            } else {
-                                roundP2 = 555;
-                            }
-                            break;
-
-                        case 6:
-                            if (boolTurnPlayer1 == true) {
-                                roundP1 = 666;
-                            } else {
-                                roundP2 = 666;
-                            }
-                            break;
-                    }
-                } else {
-                    if (boolTurnPlayer1 == true) {
-                        score = dice1 + dice2 + dice3;
-                        roundP1 = score;
-                    } else {
-                        score = dice1 + dice2 + dice3;
-                        roundP2 = score;
-                    }
-                }
+                calculateScore();
+                calculateSpecialScore();
 
                 apen();
 
@@ -324,7 +205,133 @@ public class Game extends AppCompatActivity {
     }
 
     private void calculateScore() {
+        switch (dice1) {
+            case 1:
+                dice1 = 100;
+                break;
+            case 2:
+                dice1 = 2;
+                break;
+            case 3:
+                dice1 = 3;
+                break;
+            case 4:
+                dice1 = 4;
+                break;
+            case 5:
+                dice1 = 5;
+                break;
+            case 6:
+                dice1 = 60;
+                break;
+        }
 
+        switch (dice2) {
+            case 1:
+                dice2 = 100;
+                break;
+            case 2:
+                dice2 = 2;
+                break;
+            case 3:
+                dice2 = 3;
+                break;
+            case 4:
+                dice2 = 4;
+                break;
+            case 5:
+                dice2 = 5;
+                break;
+            case 6:
+                dice2 = 60;
+                break;
+        }
+
+        switch (dice3) {
+            case 1:
+                dice3 = 100;
+                break;
+            case 2:
+                dice3 = 2;
+                break;
+            case 3:
+                dice3 = 3;
+                break;
+            case 4:
+                dice3 = 4;
+                break;
+            case 5:
+                dice3 = 5;
+                break;
+            case 6:
+                dice3 = 60;
+                break;
+        }
+    }
+
+    private void calculateSpecialScore() {
+        if (dice1 == 60 && dice2 == 5 && dice3 == 4
+                || dice1 == 60 && dice2 == 4 && dice3 == 5
+                || dice1 == 5 && dice2 == 60 && dice3 == 4
+                || dice1 == 5 && dice2 == 4 && dice3 == 60
+                || dice1 == 4 && dice2 == 60 && dice3 == 5
+                || dice1 == 4 && dice2 == 5 && dice3 == 60) {
+            if (boolTurnPlayer1 == true) {
+                roundP1 = 700;
+            } else {
+                roundP2 = 700;
+            }
+        } else if (dice1 == dice2 && dice1 == dice3) {
+            switch (dice1) {
+                case 2:
+                    if (boolTurnPlayer1 == true) {
+                        roundP1 = 270;
+                    } else {
+                        roundP2 = 270;
+                    }
+                    break;
+
+                case 3:
+                    if (boolTurnPlayer1 == true) {
+                        roundP1 = 333;
+                    } else {
+                        roundP2 = 333;
+                    }
+                    break;
+
+                case 4:
+                    if (boolTurnPlayer1 == true) {
+                        roundP1 = 444;
+                    } else {
+                        roundP2 = 444;
+                    }
+                    break;
+
+                case 5:
+                    if (boolTurnPlayer1 == true) {
+                        roundP1 = 555;
+                    } else {
+                        roundP2 = 555;
+                    }
+                    break;
+
+                case 6:
+                    if (boolTurnPlayer1 == true) {
+                        roundP1 = 666;
+                    } else {
+                        roundP2 = 666;
+                    }
+                    break;
+            }
+        } else {
+            if (boolTurnPlayer1 == true) {
+                score = dice1 + dice2 + dice3;
+                roundP1 = score;
+            } else {
+                score = dice1 + dice2 + dice3;
+                roundP2 = score;
+            }
+        }
     }
 
     private void calculateRounds() {
@@ -360,6 +367,23 @@ public class Game extends AppCompatActivity {
                 tv_roundsWinPlayer2.setText("" + winsP2);
             }
             tv_results.setText(winner + " wins!");
+            roundWon();
         }
+    }
+
+    private void roundWon() {
+        if (winsP1 == 5) {
+            str_winner = str_player1;
+            showResult();
+        } else if (winsP2 == 5) {
+            str_winner = str_player1;
+            showResult();
+        }
+    }
+
+    private void showResult() {
+        Intent intent = new Intent(Game.this, Result.class);
+        intent.putExtra(text_winner, str_winner);
+        startActivity(intent);
     }
 }
