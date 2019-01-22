@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -110,25 +112,55 @@ public class Game extends AppCompatActivity {
                 iv_dice2.setVisibility(View.VISIBLE);
                 iv_dice3.setVisibility(View.VISIBLE);
 
-                // If checkbox is NOT checked, display new dice image
-                if (!cb_dice1.isChecked()) {
-                    dice1 = randomDiceValue();
-                    int res1 = getResources().getIdentifier("ic_" + dice1,
-                            "drawable", getPackageName());
-                    iv_dice1.setImageResource(res1);
-                }
-                if (!cb_dice2.isChecked()) {
-                    dice2 = randomDiceValue();
-                    int res2 = getResources().getIdentifier("ic_" + dice2,
-                            "drawable", getPackageName());
-                    iv_dice2.setImageResource(res2);
-                }
-                if (!cb_dice3.isChecked()) {
-                    dice3 = randomDiceValue();
-                    int res3 = getResources().getIdentifier("ic_" + dice3,
-                            "drawable", getPackageName());
-                    iv_dice3.setImageResource(res3);
-                }
+
+                final Animation anim1 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
+                final Animation anim2 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
+                final Animation anim3 = AnimationUtils.loadAnimation(Game.this, R.anim.shake);
+                final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        // If checkbox is NOT checked, display new dice image
+                        if (animation == anim1) {
+                            if (!cb_dice1.isChecked()) {
+                                dice1 = randomDiceValue();
+                                int res1 = getResources().getIdentifier("ic_" + dice1,
+                                        "drawable", getPackageName());
+                                iv_dice1.setImageResource(res1);
+                            }
+                        } else if (animation == anim2) {
+                            if (!cb_dice2.isChecked()) {
+                                dice2 = randomDiceValue();
+                                int res2 = getResources().getIdentifier("ic_" + dice2,
+                                        "drawable", getPackageName());
+                                iv_dice2.setImageResource(res2);
+                            }
+                        } else if (animation == anim3) {
+                            if (!cb_dice3.isChecked()) {
+                                dice3 = randomDiceValue();
+                                int res3 = getResources().getIdentifier("ic_" + dice3,
+                                        "drawable", getPackageName());
+                                iv_dice3.setImageResource(res3);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                };
+
+                anim1.setAnimationListener(animationListener);
+                anim2.setAnimationListener(animationListener);
+                anim3.setAnimationListener(animationListener);
+
+                iv_dice1.startAnimation(anim1);
+                iv_dice2.startAnimation(anim2);
+                iv_dice3.startAnimation(anim3);
 
                 tv_results.setVisibility(View.INVISIBLE);
 

@@ -37,7 +37,7 @@
         android:layout_marginStart="12dp"
         android:textColor="#fff"
         android:layout_marginTop="48dp"
-        android:hint="Round: "
+        android:text="Round: "
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +83,7 @@
         android:layout_marginStart="252dp"
         android:layout_marginTop="48dp"
         android:textColor="#fff"
-        android:hint="Round: "
+        android:text="Round: "
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
