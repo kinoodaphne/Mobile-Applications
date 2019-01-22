@@ -159,6 +159,7 @@ public class Game extends AppCompatActivity {
         });
     }
 
+    // End turn of current player; gather score
     private void endTurn() {
         btn_end.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,12 +181,6 @@ public class Game extends AppCompatActivity {
                 }
 
                 counter = 0;
-
-                int image = getResources().getIdentifier("ic_",
-                        "drawable", getPackageName());
-                iv_dice1.setImageResource(image);
-                iv_dice2.setImageResource(image);
-                iv_dice3.setImageResource(image);
             }
         });
     }
@@ -204,6 +199,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    //  Calculate score of current turn
     private void calculateScore() {
         switch (dice1) {
             case 1:
@@ -269,6 +265,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    //  calculate special types of score
     private void calculateSpecialScore() {
         if (dice1 == 60 && dice2 == 5 && dice3 == 4
                 || dice1 == 60 && dice2 == 4 && dice3 == 5
@@ -353,7 +350,6 @@ public class Game extends AppCompatActivity {
             TotalP2 = dice1 + dice2 + dice3;
             tv_scorePlayer2.setText("" + TotalP2);
 
-            tv_results.setVisibility(View.VISIBLE);
             String winner;
             if (roundP1 > roundP2) {
                 winner = str_player1;
@@ -382,8 +378,8 @@ public class Game extends AppCompatActivity {
     }
 
     private void showResult() {
-        Intent intent = new Intent(Game.this, Result.class);
-        intent.putExtra(text_winner, str_winner);
-        startActivity(intent);
+        Intent myIntent = new Intent(Game.this, Result.class);
+        myIntent.putExtra(text_winner, str_winner);
+        startActivity(myIntent);
     }
 }
