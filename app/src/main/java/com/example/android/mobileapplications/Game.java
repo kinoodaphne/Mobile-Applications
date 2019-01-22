@@ -166,8 +166,6 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
 
                 calculateScore();
-                calculateSpecialScore();
-
                 apen();
 
                 if (cb_dice1.isChecked()) {
@@ -263,10 +261,7 @@ public class Game extends AppCompatActivity {
                 dice3 = 60;
                 break;
         }
-    }
 
-    //  calculate special types of score
-    private void calculateSpecialScore() {
         if (dice1 == 60 && dice2 == 5 && dice3 == 4
                 || dice1 == 60 && dice2 == 4 && dice3 == 5
                 || dice1 == 5 && dice2 == 60 && dice3 == 4
@@ -362,6 +357,7 @@ public class Game extends AppCompatActivity {
                 winsP2++;
                 tv_roundsWinPlayer2.setText("" + winsP2);
             }
+            tv_results.setVisibility(View.VISIBLE);
             tv_results.setText(winner + " wins!");
             roundWon();
         }

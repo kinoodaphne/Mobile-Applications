@@ -3,12 +3,15 @@ package com.example.android.mobileapplications;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class Result extends AppCompatActivity {
 
     String str_winner;
     TextView tv_winner;
+    Button btn_newGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +24,18 @@ public class Result extends AppCompatActivity {
         tv_winner = findViewById(R.id.tv_winnerPlayer);
         tv_winner.setText(str_winner);
 
-        newGame();
-        changeNames();
-    }
+        btn_newGame = findViewById(R.id.btn_new);
 
-    private void changeNames() {
-        Intent intent = new Intent(this, Main.class);
-        startActivity(intent);
+        newGame();
     }
 
     private void newGame() {
-        Intent intent = new Intent(this, Game.class);
-        startActivity(intent);
+        btn_newGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Result.this, Main.class);
+                startActivity(intent);
+            }
+        });
     }
 }
