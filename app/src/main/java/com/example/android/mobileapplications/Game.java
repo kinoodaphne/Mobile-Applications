@@ -9,48 +9,48 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.DialogInterface;
 
 import java.util.Random;
 
 
 public class Game extends AppCompatActivity {
 
+    //  Declare variables
     public static final Random RANDOM = new Random();
 
-    //  Buttons
     Button btn_roll, btn_end;
     ImageView iv_dice1, iv_dice2, iv_dice3;
 
     String str_player1, str_player2;
 
-    Integer counter = 0;
+    Integer counter = 0, round = 1, player1Turn;
     Boolean boolTurnPlayer1 = true;
-    Integer player1Turn;
-    Integer round = 1;
 
     int dice1, dice2, dice3, score;
 
     CheckBox cb_dice1, cb_dice2, cb_dice3;
 
-    TextView tv_player1, tv_player2, tv_turn;
+    TextView tv_player1, tv_player2, tv_turn, tv_counter, tv_round,
+            tv_results, tv_scorePlayer1, tv_scorePlayer2,
+            tv_roundsWinPlayer1, tv_roundsWinPlayer2;
 
-    TextView tv_counter, tv_round, tv_scorePlayer1, tv_scorePlayer2, tv_roundsWinPlayer1, tv_roundsWinPlayer2, tv_results;
+    Integer roundP1, roundP2,
+            TotalP1, TotalP2;
 
-    Integer roundP1, roundP2;
-    Integer TotalP1, TotalP2;
-
-    int winsP1 = 0;
-    int winsP2 = 0;
+    int winsP1 = 0, winsP2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        //  Call String value from Main for player names
         Intent intent = getIntent();
         str_player1 = intent.getStringExtra(Main.text_player1);
         str_player2 = intent.getStringExtra(Main.text_player2);
 
+        //  Display players name & who is playing the round
         tv_player1 = findViewById(R.id.tv_player1);
         tv_player2 = findViewById(R.id.tv_player2);
         tv_turn = findViewById(R.id.tv_turn);
@@ -59,57 +59,69 @@ public class Game extends AppCompatActivity {
         tv_player2.setText(str_player2);
         tv_turn.setText(str_player1);
 
-        btn_roll = (Button) findViewById(R.id.btn_roll);
-        iv_dice1 = (ImageView) findViewById(R.id.iv_dice1);
-        iv_dice2 = (ImageView) findViewById(R.id.iv_dice2);
-        iv_dice3 = (ImageView) findViewById(R.id.iv_dice3);
-
+        //  Buttons
+        btn_roll = findViewById(R.id.btn_roll);
         btn_end = findViewById(R.id.btn_end);
 
+        //  ImageViews dices
+        iv_dice1 = findViewById(R.id.iv_dice1);
+        iv_dice2 = findViewById(R.id.iv_dice2);
+        iv_dice3 = findViewById(R.id.iv_dice3);
+
+        //  Checkboxes for ImageViews
         cb_dice1 = findViewById(R.id.cb_dice1);
         cb_dice2 = findViewById(R.id.cb_dice2);
         cb_dice3 = findViewById(R.id.cb_dice3);
 
-        btn_end.setVisibility(View.INVISIBLE);
-        cb_dice1.setVisibility(View.INVISIBLE);
-        cb_dice2.setVisibility(View.INVISIBLE);
-        cb_dice3.setVisibility(View.INVISIBLE);
-
+        //  Display how many times the dices are thrown
         tv_counter = findViewById(R.id.tv_counter);
+
+        //  Display rounds
         tv_round = findViewById(R.id.tv_rounds);
 
+        // Display score each round & who won how many rounds
         tv_scorePlayer1 = findViewById(R.id.tv_scoreP1);
         tv_scorePlayer2 = findViewById(R.id.tv_scoreP2);
         tv_roundsWinPlayer1 = findViewById(R.id.tv_roundP1);
         tv_roundsWinPlayer2 = findViewById(R.id.tv_roundP2);
 
+        // Display who won the round
         tv_results = findViewById(R.id.tv_result);
 
+
+        //  Methods used for buttons
         rollDice();
         endTurn();
     }
 
+    //  Generate a random number between 1 and 6
     public static int randomDiceValue() {
         return RANDOM.nextInt(6) + 1;
     }
 
+    //  Roll the dices
     private void rollDice() {
         btn_roll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // If checkbox is NOT checked, display new dice image
                 if (!cb_dice1.isChecked()) {
                     dice1 = randomDiceValue();
-                    int res1 = getResources().getIdentifier("ic_" + dice1, "drawable", getPackageName());
+                    int res1 = getResources().getIdentifier("ic_" + dice1,
+                            "drawable", getPackageName());
                     iv_dice1.setImageResource(res1);
                 }
                 if (!cb_dice2.isChecked()) {
                     dice2 = randomDiceValue();
-                    int res2 = getResources().getIdentifier("ic_" + dice2, "drawable", getPackageName());
+                    int res2 = getResources().getIdentifier("ic_" + dice2,
+                            "drawable", getPackageName());
                     iv_dice2.setImageResource(res2);
                 }
                 if (!cb_dice3.isChecked()) {
                     dice3 = randomDiceValue();
-                    int res3 = getResources().getIdentifier("ic_" + dice3, "drawable", getPackageName());
+                    int res3 = getResources().getIdentifier("ic_" + dice3,
+                            "drawable", getPackageName());
                     iv_dice3.setImageResource(res3);
                 }
 
@@ -119,24 +131,25 @@ public class Game extends AppCompatActivity {
                 cb_dice1.setVisibility(View.VISIBLE);
                 cb_dice2.setVisibility(View.VISIBLE);
                 cb_dice3.setVisibility(View.VISIBLE);
+                //  How many times the dice is thrown
                 counter++;
+                //  If boolTurnPlayer 1 == true it's player1 his turn
+
                 if (boolTurnPlayer1 == true) {
                     tv_counter.setText(counter + "/3");
                     if (counter <= 1) {
                         btn_end.setVisibility(View.VISIBLE);
                     } else if (counter == 3) {
-                        cb_dice1.setVisibility(View.INVISIBLE);
-                        cb_dice2.setVisibility(View.INVISIBLE);
-                        cb_dice3.setVisibility(View.INVISIBLE);
-                        btn_roll.setVisibility(View.INVISIBLE);
+                        Toast.makeText(Game.this, "Turns over, next player",
+                                Toast.LENGTH_SHORT).show();
                     }
+                } else if (counter > 3) {
+                    Toast.makeText(Game.this, "No more turns, next player please", Toast.LENGTH_LONG).show();
                 } else {
                     tv_counter.setText(counter + "/" + player1Turn);
                     if (counter == player1Turn) {
-                        cb_dice1.setVisibility(View.INVISIBLE);
-                        cb_dice2.setVisibility(View.INVISIBLE);
-                        cb_dice3.setVisibility(View.INVISIBLE);
-                        btn_roll.setVisibility(View.INVISIBLE);
+                        Toast.makeText(Game.this, "Turns over, next player",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -210,7 +223,12 @@ public class Game extends AppCompatActivity {
                         break;
                 }
 
-                if (dice1 == 60 && dice2 == 5 && dice3 == 4 || dice1 == 60 && dice2 == 4 && dice3 == 5 || dice1 == 5 && dice2 == 60 && dice3 == 4 || dice1 == 5 && dice2 == 4 && dice3 == 60 || dice1 == 4 && dice2 == 60 && dice3 == 5 || dice1 == 4 && dice2 == 5 && dice3 == 60) {
+                if (dice1 == 60 && dice2 == 5 && dice3 == 4
+                        || dice1 == 60 && dice2 == 4 && dice3 == 5
+                        || dice1 == 5 && dice2 == 60 && dice3 == 4
+                        || dice1 == 5 && dice2 == 4 && dice3 == 60
+                        || dice1 == 4 && dice2 == 60 && dice3 == 5
+                        || dice1 == 4 && dice2 == 5 && dice3 == 60) {
                     if (boolTurnPlayer1 == true) {
                         roundP1 = 700;
                     } else {
@@ -267,7 +285,26 @@ public class Game extends AppCompatActivity {
                         roundP2 = score;
                     }
                 }
+
                 apen();
+
+                if (cb_dice1.isChecked()) {
+                    cb_dice1.toggle();
+                }
+                if (cb_dice2.isChecked()) {
+                    cb_dice2.toggle();
+                }
+                if (cb_dice3.isChecked()) {
+                    cb_dice3.toggle();
+                }
+
+                counter = 0;
+
+                int image = getResources().getIdentifier("ic_",
+                        "drawable", getPackageName());
+                iv_dice1.setImageResource(image);
+                iv_dice2.setImageResource(image);
+                iv_dice3.setImageResource(image);
             }
         });
     }
@@ -284,28 +321,6 @@ public class Game extends AppCompatActivity {
         } else {
             calculateRounds();
         }
-        btn_end.setVisibility(View.INVISIBLE);
-        btn_roll.setVisibility(View.VISIBLE);
-
-        if (cb_dice1.isChecked()) {
-            cb_dice1.toggle();
-        }
-        if (cb_dice2.isChecked()) {
-            cb_dice2.toggle();
-        }
-        if (cb_dice3.isChecked()) {
-            cb_dice3.toggle();
-        }
-        cb_dice1.setVisibility(View.INVISIBLE);
-        cb_dice2.setVisibility(View.INVISIBLE);
-        cb_dice3.setVisibility(View.INVISIBLE);
-
-        counter = 0;
-
-        int image = getResources().getIdentifier("ic_", "drawable", getPackageName());
-        iv_dice1.setImageResource(image);
-        iv_dice2.setImageResource(image);
-        iv_dice3.setImageResource(image);
     }
 
     private void calculateScore() {
