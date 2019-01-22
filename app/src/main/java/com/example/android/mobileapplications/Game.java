@@ -294,24 +294,37 @@ public class Game extends AppCompatActivity {
                 break;
         }
 
+        //  If dice is 69
         if (dice1 == 60 && dice2 == 5 && dice3 == 4
                 || dice1 == 60 && dice2 == 4 && dice3 == 5
                 || dice1 == 5 && dice2 == 60 && dice3 == 4
                 || dice1 == 5 && dice2 == 4 && dice3 == 60
                 || dice1 == 4 && dice2 == 60 && dice3 == 5
                 || dice1 == 4 && dice2 == 5 && dice3 == 60) {
+            //  Who gets the 69? huehue dirty mind
             if (boolTurnPlayer1 == true) {
-                roundP1 = 700;
+                roundP1 = 69;
             } else {
-                roundP2 = 700;
+                roundP2 = 69;
             }
-        } else if (dice1 == dice2 && dice1 == dice3) {
+        } else if ((dice1 == 3 && dice2 == 2 && dice3 == 2
+                || dice1 == 2 && dice2 == 3 && dice3 == 2
+                || dice1 == 2 && dice2 == 2 && dice3 == 3)) {
+            if (boolTurnPlayer1 == true) {
+                roundP1 = 7;
+            } else {
+                roundP2 = 7;
+            }
+        }
+        // If dice is Zand
+        else if (dice1 == dice2 && dice1 == dice3) {
+            // Cases who gets Zand
             switch (dice1) {
                 case 2:
                     if (boolTurnPlayer1 == true) {
-                        roundP1 = 270;
+                        roundP1 = 222;
                     } else {
-                        roundP2 = 270;
+                        roundP2 = 222;
                     }
                     break;
 
@@ -358,6 +371,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    // Calculate who wins the round
     private void calculateRounds() {
         if (boolTurnPlayer1 == true) {
             boolTurnPlayer1 = false;
@@ -378,13 +392,17 @@ public class Game extends AppCompatActivity {
             tv_scorePlayer2.setText("" + TotalP2);
 
             String winner;
+            // If score player 1 is greater than score player 2
             if (roundP1 > roundP2) {
+                //  Player 1 won
                 winner = str_player1;
                 winsP1++;
                 tv_roundsWinPlayer1.setText("" + winsP1);
             } else if (roundP1.equals(roundP2)) {
+                //  Sorry, it's a draw
                 winner = "Nobody";
             } else {
+                //  Player 2 won
                 winner = str_player2;
                 winsP2++;
                 tv_roundsWinPlayer2.setText("" + winsP2);
@@ -395,6 +413,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    // Who ever gets to 5 rounds first wins
     private void roundWon() {
         if (winsP1 == 5) {
             str_winner = str_player1;
@@ -405,6 +424,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    // Go to next activity Result to celebrate the winner
     private void showResult() {
         Intent myIntent = new Intent(Game.this, Result.class);
         myIntent.putExtra(text_winner, str_winner);
